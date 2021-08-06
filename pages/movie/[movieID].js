@@ -1,79 +1,43 @@
-import { useEffect, useState } from 'react'
-import { useRouter } from "next/router";
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Container from '@material-ui/core/Container';
 import Image from "next/image";
-import { API_URL, API_KEY, IMAGE_BASE_URL, IMAGE_SIZE } from '../../lib/config'
 import MovieInfo from '../../components/movie/MovieInfo';
 
-function MovieDetails(props) {
-    const router = useRouter();
-    const movieId = router.query.movieID;
-    
-    const [Movie, setMovie] = useState([])
-    const [Casts, setCasts] = useState([])
-    const [LoadingForMovie, setLoadingForMovie] = useState(true)
-    const [LoadingForCasts, setLoadingForCasts] = useState(true)
-    const movieVariable = {
-        movieId: movieId
-    }
-    
-    useEffect(() => {
 
-        let endpointForMovieInfo = `${API_URL}movie/${movieId}?api_key=${API_KEY}&language=en-US`;
-        fetchDetailInfo(endpointForMovieInfo)
-    }, [])
-
-    const fetchDetailInfo = (endpoint) => {
-        fetch(endpoint)
-            .then(result => result.json())
-            .then(result => {
-                console.log(result)
-                setMovie(result)
-                setLoadingForMovie(false)
-
-                let endpointForCasts = `${API_URL}movie/${movieId}/credits?api_key=${API_KEY}`;
-                fetch(endpointForCasts)
-                    .then(result => result.json())
-                    .then(result => {
-                        console.log(result)
-                        setCasts(result.cast)
-                    })
-
-                setLoadingForCasts(false)
-            })
-            .catch(error => console.error('Error:', error)
-            )
-    }
-    return (
-        <div>
-            {/* Header */}
-            {!LoadingForMovie ?
-                <Image
-                    src={`${IMAGE_BASE_URL}${Movie.poster_path}`}
-                    alt={Movie.original_title}
-                    width="400px"
-                    height="600px"
-                />
-                :
-                <div>loading...</div>
-            }
-             <div style={{ width: '85%', margin: '1rem auto' }}>
-
-                <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                    {/* <Favorite movieInfo={Movie} movieId={movieId} userFrom={localStorage.getItem('userId')} /> */}
-                </div>
-
-
-                {/* Movie Info */}
-                {!LoadingForMovie ?
-                    <MovieInfo movie={Movie} />
-                    :
-                    <div>loading...</div>
-                }
-
-                <br />
+function MovieDetails({data}) {
+    const Movie = data;
+    return(
+        <Container maxWidth="sm" style={{margin:'1rem auto'}}>
+            <CssBaseline />
+            <Image
+                src={`https://www.themoviedb.org/t/p/w600_and_h900_bestv2/${Movie.poster_path}`}
+                alt={Movie.original_title}
+                width="400px"
+                height="600px"
+            />
+            <div style={{ margin: '1rem auto' }}>
+                <MovieInfo movie={Movie} />
             </div>
-        </div>
+        </Container>
     )
 }
+
+
+export async function getServerSideProps(context) {
+    const movieId = context.params.movieID;
+    let endpointForMovieInfo = `${process.env.API_URL}movie/${movieId}?api_key=${process.env.API_KEY}&language=en-US`;
+    const res = await fetch(endpointForMovieInfo)
+    const data = await res.json()
+  
+    if (!data) {
+      return {
+        notFound: true,
+      }
+    }
+  
+    return {
+      props: {data}, // will be passed to the page component as props
+    }
+  }
 
 export default MovieDetails;
