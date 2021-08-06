@@ -4,6 +4,7 @@ import Image from 'next/image'
 import styles from './search.module.css'
 import Button from '@material-ui/core/Button'
 import SaveIcon from '@material-ui/icons/Save';
+import { More } from '@material-ui/icons';
 
 export default function Search() {
   const searchRef = useRef(null)
@@ -69,6 +70,14 @@ export default function Search() {
               {overview.length < 350 && 
 							<p>{overview}</p>
 							}
+              <Button
+                variant="contained"
+                color="primary"
+                // className={button}
+                startIcon={<More />}
+              >
+                <Link href={`/movie/${id}`}>Details</Link>
+             </Button>
               <Button
                 variant="contained"
                 color="primary"

@@ -2,13 +2,15 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
 import Image from "next/image";
 import MovieInfo from '../../components/movie/MovieInfo';
-
+import Link from 'next/link'
+import Button from '@material-ui/core/Button'
+import { green, black } from '@material-ui/core/colors';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 function MovieDetails({data}) {
     const Movie = data;
     return(
-        <Container maxWidth="sm" style={{margin:'1rem auto'}}>
-            <CssBaseline />
+        <Container maxWidth="sm" style={{margin:'1rem auto',paddingBottom:'2rem',textAlign:"center"}}>
             <Image
                 src={`https://www.themoviedb.org/t/p/w600_and_h900_bestv2/${Movie.poster_path}`}
                 alt={Movie.original_title}
@@ -18,6 +20,14 @@ function MovieDetails({data}) {
             <div style={{ margin: '1rem auto' }}>
                 <MovieInfo movie={Movie} />
             </div>
+            <Button
+                variant="outlined"
+                color="primary"
+                // className={button}
+                startIcon={<ArrowBackIcon style={{ color: green[500] }}/>}
+              >
+                <Link href={`/addMovies`}>Back</Link>
+             </Button>
         </Container>
     )
 }
