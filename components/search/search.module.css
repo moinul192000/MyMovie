@@ -1,0 +1,40 @@
+.container {
+    position: relative;
+    width: 95%;
+    margin: 5%;
+  }
+  
+  .search {
+    margin-left: 5%;
+    border: 1px solid #666;
+    box-sizing: border-box;
+    font-size: 18px;
+    padding: 18px;
+    width: 100%;
+  }
+  
+  .results {
+    list-style: none;
+    overflow: hidden;
+    margin: 9px 0 0;
+    padding: 0;
+    position: absolute;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+  }
+  
+  .result {
+    background: #9ab7d8;
+    color: rgb(22, 19, 19);
+    margin: 0 0 9px;
+    padding: 18px;
+    max-height: 700px;
+    width: 500px;
+    border: 2px solid white;
+    border-radius: 2%;
+  }
+  
+  .result a {
+    color: #eee;
+  }

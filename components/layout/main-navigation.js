@@ -14,7 +14,7 @@ function MainNavigation() {
     <header className={classes.header}>
       <Link href='/'>
         <a>
-          <div className={classes.logo}>Next Auth</div>
+          <div className={classes.logo}>MyMovie</div>
         </a>
       </Link>
       <nav>
@@ -22,6 +22,16 @@ function MainNavigation() {
           {!session && !loading && (
             <li>
               <Link href='/auth'>Login</Link>
+            </li>
+          )}
+          {session && (
+            <li>
+              <Link href='/addMovies'>Add Movie</Link>
+            </li>
+          )}
+          {session && (
+            <li>
+              <Link href='/movie'>Movies</Link>
             </li>
           )}
           {session && (
